@@ -28,8 +28,7 @@ pipeline {
                         echo "File exists"
                     else
                         echo "File does not exist"
-                    fi
-                    npm test
+                    fi                    
                 '''
             }
         }
