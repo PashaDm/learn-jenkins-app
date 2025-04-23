@@ -21,6 +21,12 @@ pipeline {
             }
         }
         stage('Test') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
             steps {
                 echo 'Test stage '
                 sh '''
@@ -28,7 +34,8 @@ pipeline {
                         echo "File exists"
                     else
                         echo "File does not exist"
-                    fi                    
+                    fi
+                    npm test
                 '''
             }
         }
