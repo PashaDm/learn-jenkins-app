@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:18'
                     reuseNode true
                 }
             }
@@ -21,7 +21,6 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    apk add --no-cache bash
                     npm ci
                     npm run build
                     ls -la
@@ -87,13 +86,12 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:18'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    apk add --no-cache bash
                     npm install netlify-cli
                     node_modules/.bin/netlify --version
                     echo "Site ID: $NETLIFY_SITE_ID"  
