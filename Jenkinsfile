@@ -116,15 +116,13 @@ pipeline {
                     steps {
                         echo 'E2E Test stage '
                         sh '''
-
                             npx playwright test --reporter=html
                         '''
                     }
 
                     post {
-                        always {
-                            
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E Report', reportTitles: '', useWrapperFileDirectly: true])
+                        always {                            
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
             }
