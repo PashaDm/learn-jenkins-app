@@ -100,8 +100,7 @@ pipeline {
                 '''
             }
         }
-
-        stage('Deploy prod') {
+        stage('Deploy staging') {
             agent {
                 docker {
                     image 'node:18'
@@ -112,11 +111,19 @@ pipeline {
                 sh '''
                     npm install netlify-cli
                     node_modules/.bin/netlify --version
-                    echo 'Deploy to PROD'
+                    echo 'Deploy to STG'
                     echo "Site ID: $NETLIFY_SITE_ID"  
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --prod
+                    node_modules/.bin/netlify deploy --dir=build
+                    
                 '''
+            }
+        }
+        stage('Approval') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    input message: 'Do you wish to deploy to production?', ok: 'Yes, I am sure!'
+                }
             }
         }
 
