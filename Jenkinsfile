@@ -128,14 +128,15 @@ pipeline {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
-        }        
+        }    
+        /*  
         stage('Approval') {
             steps {
                 timeout(time: 5, unit: 'SECONDS') {
                     input message: 'Ready to deploy to Prod?', ok: 'Yes, I am sure!'
                 }
             }
-        }
+        } */
         stage('Deploy prod') {
             agent {
                 docker {
