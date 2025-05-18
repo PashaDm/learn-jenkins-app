@@ -96,13 +96,42 @@ pipeline {
                     echo "Site ID: $NETLIFY_SITE_ID"  
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                    node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json                    
+                                        
                 '''
+                script {
+                    env.STG_URL = sh(script: 'node_modules/.bin/node-jq -r ".deploy_url" deploy-output.json', returnStdout: true)
+                }    
             }
         }
+
+        stage('Staging E2E') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                        }
+                    }
+
+                    environment {
+                        CI_ENVIRONMENT_URL = "${env.STG_URL}"
+                    }
+
+                    steps {
+                        echo 'E2E Test stage '
+                        sh '''
+                            npx playwright test --reporter=html
+                        '''
+                    }
+
+                    post {
+                        always {                            
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2E', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+                    }
+        }        
         stage('Approval') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'SECONDS') {
                     input message: 'Ready to deploy to Prod?', ok: 'Yes, I am sure!'
                 }
             }
@@ -147,7 +176,7 @@ pipeline {
 
                     post {
                         always {                            
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Production E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
             }
