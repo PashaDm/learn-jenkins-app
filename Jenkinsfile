@@ -89,7 +89,9 @@ pipeline {
                             reuseNode true
                         }
                     }
-
+                    environment {
+                        CI_ENVIRONMENT_URL = 'STG_URL_TO_BE_SET'
+                    }
                     steps {
                         echo 'E2E Test stage '
                         sh '''
