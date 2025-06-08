@@ -67,13 +67,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Build Docker Image') {
-                    steps {
-                        script {
-                            docker.build('my-playwright', '.')
-                    }
-                  }
-                }
+
                 stage('E2E') {
                     agent {
                         docker {
