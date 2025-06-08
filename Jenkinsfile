@@ -7,7 +7,20 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
-    stages {        
+    stages {       
+
+        /*stage('AWS') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                }
+            }
+            steps {
+                sh '''
+
+                '''
+            }
+        } */
 
         stage('Build') {
             agent {
@@ -54,7 +67,13 @@ pipeline {
                         }
                     }
                 }
-                
+                stage('Build Docker Image') {
+                    steps {
+                        script {
+                            docker.build('my-playwright', '.')
+                    }
+                  }
+                }
                 stage('E2E') {
                     agent {
                         docker {
