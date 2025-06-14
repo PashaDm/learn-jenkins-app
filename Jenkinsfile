@@ -76,7 +76,7 @@ pipeline {
                         }
                     }
                 }
-                /*
+                
                 stage('E2E') {
                     agent {
                         docker {
@@ -100,7 +100,7 @@ pipeline {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
-                }*/
+                }
             }
         }
         
