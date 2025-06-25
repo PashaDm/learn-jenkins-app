@@ -106,21 +106,19 @@ pipeline {
         */
         stage('Build image') {
             steps {
-                sh 'docker build -t my-playwright:latest .'
+                script {
+                    myImage = docker.build("my-playwright:latest")
+                }
             }
         }
         stage('Deploy staging') {
-                    agent {
-                        docker {
-                            image 'my-playwright:latest'
-                            reuseNode true
-                        }
-                    }
                     environment {
                         CI_ENVIRONMENT_URL = 'STG_URL_TO_BE_SET'
                     }
                     steps {
                         echo 'E2E Test stage '
+                        script {
+                            myImage.inside('--entrypoint=""') {
                         sh '''
                             netlify --version
                             echo 'Deploy to STG'
@@ -130,14 +128,15 @@ pipeline {
                             CI_ENVIRONMENT_URL=$(jq -r ".deploy_url" deploy-output.json)                            
                             npx playwright test --reporter=html
                         '''
+                        }
+                      }
                     }
-
                     post {
                         always {                            
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
-        }    
+         }
         /*  
         stage('Approval') {
             steps {
@@ -146,7 +145,7 @@ pipeline {
                 }
             }
         } */
-        
+        /*
         stage('Deploy prod') {
                     agent {
                         docker {
@@ -176,8 +175,8 @@ pipeline {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Production E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
-            }*/
-    
+            }
+    */
     }
     
 }
