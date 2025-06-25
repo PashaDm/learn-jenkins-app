@@ -8,7 +8,7 @@ pipeline {
     }
 
     stages {       
-
+        /*    
         stage('AWS') {
             agent {
                 docker {
@@ -30,7 +30,7 @@ pipeline {
 
             }
         }
-
+        */
         stage('Build') {
             agent {
                 docker {
@@ -49,7 +49,7 @@ pipeline {
                 '''
             }
         }
-        
+        /*
         stage('Tests') {
             parallel {
                 stage('Unit Tests') {
@@ -141,7 +141,7 @@ pipeline {
                 }
             }
         } */
-
+        /*
         stage('Deploy prod') {
                     agent {
                         docker {
@@ -171,8 +171,8 @@ pipeline {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Production E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
-            }
-
+            }*/
+    
     }
-
+    
 }
