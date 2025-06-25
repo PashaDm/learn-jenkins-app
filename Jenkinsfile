@@ -100,13 +100,13 @@ pipeline {
                             npx playwright test --reporter=html
                         '''
                     }
-
+                    /*
                     post {
                         always {
                             
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
-                    }
+                    }*/
                 }
             }
         }
