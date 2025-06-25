@@ -110,13 +110,6 @@ pipeline {
             }
         }
         */
-        stage('Build image') {
-            steps {
-                script {
-                    myImage = docker.build("my-playwright:latest")
-                }
-            }
-        }
         stage('Deploy staging') {
                     agent {
                         docker {
