@@ -104,6 +104,11 @@ pipeline {
             }
         }
         */
+        stage('Build image') {
+            steps {
+                sh 'docker build -t my-playwright:latest .'
+            }
+        }
         stage('Deploy staging') {
                     agent {
                         docker {
@@ -141,11 +146,11 @@ pipeline {
                 }
             }
         } */
-        /*
+        
         stage('Deploy prod') {
                     agent {
                         docker {
-                            image 'my-playwright'
+                            image 'my-playwright:latest'
                             reuseNode true
                         }
                     }
