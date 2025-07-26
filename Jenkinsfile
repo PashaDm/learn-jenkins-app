@@ -54,8 +54,8 @@ pipeline {
                     ls -la
                 '''
             }
-        }
-        */
+        }*/
+        
         stage('Tests') {
             parallel {
                 stage('Unit Tests') {
@@ -86,7 +86,7 @@ pipeline {
                 stage('E2E') {
                     agent {
                         docker {
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            image 'mcr.microsoft.com/playwright:v1.54.0-jammy'
                             reuseNode true
                         }
                     }
@@ -110,7 +110,7 @@ pipeline {
                 }
             }
         }
-        /* 
+        /*
         stage('Deploy staging') {
                     agent {
                         docker {
@@ -134,12 +134,12 @@ pipeline {
                             '''                        
                       }
                     }
-                    /*
+                    
                     post {
                         always {                            
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
-                    }*/
+                    }
          }*/
         /*  
         stage('Approval') {
@@ -183,4 +183,4 @@ pipeline {
     */
     }
     
-
+}
