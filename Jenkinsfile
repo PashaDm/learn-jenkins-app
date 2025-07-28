@@ -58,13 +58,13 @@ pipeline {
         
         stage('Tests') {
             parallel {
-                stage('Unit Tests') {
+                /*stage('Unit Tests') {
                     agent {
                         docker {
                             image 'node:18-alpine'
                             reuseNode true
                         }
-                    }/*
+                    }
                     steps {
                         sh '''
                             if test -f 'build/index.html'; then
@@ -74,14 +74,14 @@ pipeline {
                             fi
                             npm test
                         '''
-                    }*/
+                    }
 
                     post {
                         always {
                             junit 'jest-results/junit.xml'                            
                         }
                     }
-                }
+                }*/
                 
                 stage('E2E') {
                     agent {
