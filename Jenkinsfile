@@ -36,7 +36,7 @@ pipeline {
                 sh 'docker build -t my-playwright .'
             }
         }
-        /*
+        
         stage('Build') {
             agent {
                 docker {
@@ -54,7 +54,7 @@ pipeline {
                     ls -la
                 '''
             }
-        }*/
+        }
         
         stage('Tests') {
             parallel {
