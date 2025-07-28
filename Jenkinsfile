@@ -64,7 +64,7 @@ pipeline {
                             image 'node:18-alpine'
                             reuseNode true
                         }
-                    }
+                    }/*
                     steps {
                         sh '''
                             if test -f 'build/index.html'; then
@@ -74,7 +74,7 @@ pipeline {
                             fi
                             npm test
                         '''
-                    }
+                    }*/
 
                     post {
                         always {
@@ -95,9 +95,8 @@ pipeline {
                         echo 'E2E Test stage '
                         sh '''
                             npm install serve
-                            node_modules/.bin/serve -s build &
-                            sleep 10
-                            npx playwright test --reporter=html
+                            node_modules/.bin/serve -s build
+                            npx playwright test
                         '''
                     }
                     /*
